@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#612717" />
+    <meta
+      name="description"
+      content="Brown Sugar Circle is a supportive community for Black women in Los Angeles. Find upcoming gatherings, music, and conversation cards."
+    />
+    <title>Brown Sugar Circle</title>
+    <link rel="icon" type="image/png" href="assets/brown-sugar-circle-logo.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header" aria-label="Brown Sugar Circle">
+        <button class="brand-button" type="button" data-route="home" aria-label="Go to Brown Sugar Circle home">
+          <img class="brand-logo" src="assets/brown-sugar-circle-logo.png" alt="Brown Sugar Circle" />
+        </button>
+        <button class="icon-button" id="shareButton" type="button" aria-label="Share these conversation cards">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 3v12m0-12 4 4m-4-4L8 7M5 11v8h14v-8" />
+          </svg>
+        </button>
+      </header>
+
+      <main id="app" tabindex="-1">
+        <section class="screen home-screen is-active" data-screen="home" aria-labelledby="home-title">
+          <button class="home-share-button" id="homeShareButton" type="button" aria-label="Share Brown Sugar Circle">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 3v12m0-12 4 4m-4-4L8 7M5 11v8h14v-8" />
+            </svg>
+          </button>
+
+          <div class="home-brand">
+            <img class="home-logo" src="assets/brown-sugar-circle-logo.png" alt="Brown Sugar Circle" />
+            <h1 id="home-title">Brown Sugar Circle</h1>
+            <p>A supportive community for Black women in Los Angeles.</p>
+          </div>
+
+          <nav class="social-links" aria-label="Follow Brown Sugar Circle">
+            <a href="https://www.instagram.com/brownsugarcircle" target="_blank" rel="noopener noreferrer" aria-label="Follow Brown Sugar Circle on Instagram">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" /><circle cx="12" cy="12" r="4" /><circle cx="17.5" cy="6.5" r="1" class="fill-icon" /></svg>
+              <span>Instagram</span>
+            </a>
+            <a href="https://www.tiktok.com/@brownsugarcircle" target="_blank" rel="noopener noreferrer" aria-label="Follow Brown Sugar Circle on TikTok">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4v10.2a4.6 4.6 0 1 1-4-4.56M14 4c.45 2.52 1.94 4.02 4.5 4.5" /></svg>
+              <span>TikTok</span>
+            </a>
+            <a href="mailto:hello@brownsugarcircle.com" aria-label="Email Brown Sugar Circle">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2" /><path d="m4 7 8 6 8-6" /></svg>
+              <span>Email</span>
+            </a>
+          </nav>
+
+          <div class="link-hub" aria-label="Brown Sugar Circle links">
+            <a class="hub-link hub-link-featured" href="https://partiful.com/e/61NcEiQCgHbn9cxfovMF?c=kkiTl7jt" target="_blank" rel="noopener noreferrer">
+              <span class="hub-link-icon" aria-hidden="true">✦</span>
+              <span><strong>Brown Sugar Sister Circle</strong><small>RSVP for the next gathering</small></span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+            </a>
+
+            <button class="hub-link" type="button" data-route="welcome">
+              <span class="hub-link-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-8 7.47 9.2 9.2 0 0 1-3.35-.9L4 20l1.42-4.08A7.36 7.36 0 0 1 4 11.5a7.5 7.5 0 0 1 8-7.47 7.5 7.5 0 0 1 8 7.47Z" /></svg>
+              </span>
+              <span><strong>Conversation Cards</strong><small>Open the digital deck</small></span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+            </button>
+
+            <a class="hub-link" href="https://open.spotify.com/playlist/7FEYHLqh3GriJLROxC6Pa0?si=2EGWVU8vRHiNqVC71_fLcA&amp;utm_source=copy-link&amp;pi=0zms-83MRkaQC" target="_blank" rel="noopener noreferrer">
+              <span class="hub-link-icon" aria-hidden="true">♪</span>
+              <span><strong>BSC Spotify Playlist</strong><small>Press play on the circle’s soundtrack</small></span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+            </a>
+
+          </div>
+        </section>
+
+        <section class="screen welcome-screen" data-screen="welcome" aria-labelledby="welcome-title">
+          <div class="eyebrow"><span></span> Picnic edition</div>
+          <h1 id="welcome-title">Come as you are.<br /><em>Leave knowing somebody.</em></h1>
+          <p class="lede">
+            A shuffled deck for Black women to meet, laugh, and find common ground—open it on every phone or use one together.
+          </p>
+
+          <div class="hero-art" aria-hidden="true">
+            <div class="sunburst"></div>
+            <div class="hero-card hero-card-front">
+              <div class="hero-card-copy">
+                <span class="hero-card-kicker">36 shuffled questions</span>
+                <strong>Pull a card.<br />Meet somebody.</strong>
+                <span class="hero-card-note">Picnic Edition</span>
+              </div>
+              <img class="hero-people" src="assets/bsc-group.webp" alt="" />
+            </div>
+          </div>
+
+          <div class="action-stack">
+            <button class="button button-primary" type="button" data-route="group">
+              Find my circle
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+            </button>
+            <button class="text-button" type="button" data-route="host">I’m hosting—show me the guide</button>
+          </div>
+
+        </section>
+
+        <section class="screen group-screen" data-screen="group" aria-labelledby="group-title">
+          <div class="step-label">Your picnic group</div>
+          <h2 id="group-title">Let’s find your circle.</h2>
+          <p class="group-intro" id="groupIntro">Tap below to pick a number from 1–12.</p>
+          <span class="visually-hidden" id="groupAnnouncement" role="status" aria-live="polite"></span>
+
+          <div class="assignment-panel">
+            <strong class="assignment-number" id="groupNumber" aria-hidden="true">?</strong>
+          </div>
+
+          <div class="group-actions">
+            <button class="button button-primary" id="assignGroupButton" type="button">Pick my number</button>
+            <button class="button button-primary" id="continueButton" type="button" data-route="setup" hidden>I found my circle</button>
+            <button class="text-button" type="button" data-route="welcome">Back</button>
+          </div>
+        </section>
+
+        <section class="screen setup-screen" data-screen="setup" aria-labelledby="setup-title">
+          <div class="step-label">Before you begin</div>
+          <h2 id="setup-title">Make a little room for each other.</h2>
+          <div class="setup-list">
+            <article>
+              <span class="number">01</span>
+              <div><h3>Choose how you’ll play</h3><p>Everyone can open the link and take turns drawing, or one person can read from a shared phone.</p></div>
+            </article>
+            <article>
+              <span class="number">02</span>
+              <div><h3>Draw, ask, answer—or pass</h3><p>When it’s your turn, draw a card and ask the group. No one owes the circle a story.</p></div>
+            </article>
+            <article>
+              <span class="number">03</span>
+              <div><h3>Listen without fixing</h3><p>Be curious, leave space, and ask before offering advice. Personal stories stay here.</p></div>
+            </article>
+          </div>
+          <button class="button button-primary" type="button" data-route="icebreaker">We’re ready</button>
+          <button class="text-button" type="button" data-route="group">Back</button>
+        </section>
+
+        <section class="screen icebreaker-screen" data-screen="icebreaker" aria-labelledby="icebreaker-title">
+          <div class="card-stage">
+            <article class="prompt-card icebreaker-card">
+              <div class="card-topline"><span>Opening icebreaker</span></div>
+              <h2 id="icebreaker-title">Share your name, your neighborhood, and one small thing bringing you joy right now.</h2>
+              <p>Keep it easy—about 30 seconds each.</p>
+            </article>
+          </div>
+          <button class="button button-primary" id="beginDeckButton" type="button">Draw our first card</button>
+          <button class="text-button" type="button" data-route="setup">Review the circle agreements</button>
+        </section>
+
+        <section class="screen deck-screen" data-screen="deck" aria-labelledby="promptText">
+          <div class="deck-status">
+            <span id="roundLabel">Shuffled deck</span>
+            <span id="progressLabel">Card 1 of 36</span>
+          </div>
+          <div class="card-stage">
+            <article class="prompt-card" id="activeCard" aria-live="polite">
+              <div class="card-topline"><span id="categoryLabel">Warm up</span><span id="cardNumber">01</span></div>
+              <div class="quote-mark" aria-hidden="true">“</div>
+              <h2 id="promptText"></h2>
+              <p id="promptNote">Take turns around the circle—or pass.</p>
+            </article>
+          </div>
+          <div class="deck-actions">
+            <button class="button button-primary" id="nextCardButton" type="button">
+              Draw another card
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+            </button>
+            <button class="button button-secondary" type="button" data-route="closing">Close the circle</button>
+          </div>
+          <p class="microcopy">There are no wrong answers. Let people finish before jumping in.</p>
+        </section>
+
+        <section class="screen closing-screen" data-screen="closing" aria-labelledby="closing-title">
+          <div class="closing-orbit" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
+          <div class="eyebrow"><span></span> Closing round</div>
+          <h2 id="closing-title">Leave the circle with intention.</h2>
+          <div class="closing-prompts">
+            <article><span>01</span><p>In one word, how are you leaving this conversation?</p></article>
+            <article><span>02</span><p>What is one thing you heard that you want to remember?</p></article>
+            <article><span>03</span><p>If it feels mutual, who would you like to stay connected with?</p></article>
+          </div>
+          <button class="button button-primary" id="finishButton" type="button">Close the circle</button>
+          <button class="text-button" type="button" data-route="deck">Draw another card</button>
+        </section>
+
+        <section class="screen done-screen" data-screen="done" aria-labelledby="done-title">
+          <div class="done-mark" aria-hidden="true">✦</div>
+          <img class="done-logo" src="assets/brown-sugar-circle-logo.png" alt="Brown Sugar Circle" />
+          <h2 id="done-title">A few new names. A little more community.</h2>
+          <p>Thank you for showing up with warmth, curiosity, and care.</p>
+          <button class="button button-primary" id="newCircleButton" type="button">Start a new circle</button>
+          <button class="button button-secondary" id="doneShareButton" type="button">Share the cards</button>
+        </section>
+
+        <section class="screen host-screen" data-screen="host" aria-labelledby="host-title">
+          <div class="step-label">Host guide • 60+ guests</div>
+          <h2 id="host-title">A smooth start for a big picnic.</h2>
+
+          <div class="host-callout">
+            <strong>Best setup</strong>
+            <p>Make 12 numbered circles. Guests tap “Find my circle” on their phones, then head to the matching number.</p>
+          </div>
+
+          <div class="host-sections">
+            <article>
+              <h3>Before guests arrive</h3>
+              <ul>
+                <li>Place a number at each blanket or seating area.</li>
+                <li>Text or QR-code this link so every guest can get a circle number and open the cards.</li>
+                <li>Ask guests to tap “Find my circle” before they settle in with friends.</li>
+                <li>Because the assignment is random, choose one friendly floater to balance crowded groups and help late arrivals.</li>
+              </ul>
+            </article>
+            <article>
+              <h3>30-minute opening flow</h3>
+              <ol class="timeline">
+                <li><span>0–3</span><p>Move into groups and open the link on one or more phones.</p></li>
+                <li><span>3–7</span><p>Read the agreements and do the opening icebreaker.</p></li>
+                <li><span>7–24</span><p>Draw 5–7 cards. Let the conversation breathe.</p></li>
+                <li><span>24–30</span><p>Use the closing round and invite optional contact exchange.</p></li>
+              </ol>
+            </article>
+            <article class="host-script">
+              <h3>What to say</h3>
+              <p>“Welcome to Brown Sugar Circle. Open the link and tap ‘Find my circle.’ You’ll get a number from 1 to 12—head to the picnic sign with that same number. Once everyone is settled, you can each draw a shuffled card and ask it to the group, or use one phone together. You can answer any prompt—or pass. The goal isn’t to impress anyone; it’s simply to leave knowing a few more names.”</p>
+            </article>
+          </div>
+
+          <button class="button button-primary" type="button" data-route="welcome">Back to the cards</button>
+        </section>
+      </main>
+
+      <div class="toast" id="toast" role="status" aria-live="polite">Link copied</div>
+      <div class="confetti" id="confetti" aria-hidden="true"></div>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>
