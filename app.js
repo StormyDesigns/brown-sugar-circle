@@ -77,6 +77,7 @@ const groupIntro = document.getElementById("groupIntro");
 const groupAnnouncement = document.getElementById("groupAnnouncement");
 const assignGroupButton = document.getElementById("assignGroupButton");
 const continueButton = document.getElementById("continueButton");
+const pickAgainButton = document.getElementById("pickAgainButton");
 const partySizeInput = document.getElementById("partySize");
 const partySizeField = document.getElementById("partySizeField");
 
@@ -141,6 +142,7 @@ function renderGroupAssignment() {
   if (!saved) partySizeInput.value = String(getSavedPartySize());
   assignGroupButton.hidden = Boolean(saved);
   continueButton.hidden = !saved;
+  pickAgainButton.hidden = !saved;
   document.querySelector(".assignment-panel").classList.toggle("has-number", Boolean(saved));
 }
 
@@ -163,6 +165,18 @@ function assignGroup() {
   groupNumber.classList.remove("is-revealing");
   requestAnimationFrame(() => groupNumber.classList.add("is-revealing"));
   continueButton.focus({ preventScroll: true });
+}
+
+function pickAgain() {
+  const current = getSavedGroupNumber();
+  if (current) savePreviousGroupNumber(current);
+  assignedGroupNumber = null;
+  partySize = getSavedPartySize();
+  try {
+    window.localStorage.removeItem(GROUP_STORAGE_KEY);
+  } catch (error) {}
+  renderGroupAssignment();
+  partySizeInput.focus();
 }
 
 function showScreen(name, updateHash = true) {
@@ -311,6 +325,7 @@ document.addEventListener("click", (event) => {
 
 document.getElementById("beginDeckButton").addEventListener("click", startDeck);
 assignGroupButton.addEventListener("click", assignGroup);
+pickAgainButton.addEventListener("click", pickAgain);
 partySizeInput.addEventListener("input", () => partySizeInput.setCustomValidity(""));
 nextCardButton.addEventListener("click", nextPrompt);
 document.getElementById("finishButton").addEventListener("click", celebrate);
