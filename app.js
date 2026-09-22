@@ -79,7 +79,9 @@ const assignGroupButton = document.getElementById("assignGroupButton");
 const continueButton = document.getElementById("continueButton");
 const pickAgainButton = document.getElementById("pickAgainButton");
 const partySizeInput = document.getElementById("partySize");
-const partySizeField = document.getElementById("partySizeField");
+const partyForm = document.getElementById("partyForm");
+const decreaseParty = document.getElementById("decreaseParty");
+const increaseParty = document.getElementById("increaseParty");
 
 function getSavedPartySize() {
   try {
@@ -134,19 +136,16 @@ function renderGroupAssignment() {
     ? getSavedPartySize() > 1
       ? `Tell your ${getSavedPartySize() - 1} friend${getSavedPartySize() === 2 ? "" : "s"} this number. Head to the picnic sign with the same number together.`
       : "Find the picnic sign with the same number."
-    : "Coming with friends? Pick one number together so you can sit in the same circle.";
-  groupAnnouncement.textContent = saved
-    ? `You’re in Circle ${saved}. ${groupIntro.textContent}`
-    : "";
-  partySizeField.hidden = Boolean(saved);
-  if (!saved) partySizeInput.value = String(getSavedPartySize());
+    : "You’ll all get the same number. Look for its picnic sign.";
+  groupAnnouncement.textContent = saved ? `You’re in Circle ${saved}. ${groupIntro.textContent}` : "";
   assignGroupButton.hidden = Boolean(saved);
   continueButton.hidden = !saved;
   pickAgainButton.hidden = !saved;
   document.querySelector(".assignment-panel").classList.toggle("has-number", Boolean(saved));
 }
 
-function assignGroup() {
+function savePartySize(event) {
+  event.preventDefault();
   partySizeInput.setCustomValidity("");
   if (!partySizeInput.reportValidity()) return;
   const count = Number(partySizeInput.value);
@@ -155,8 +154,23 @@ function assignGroup() {
     partySizeInput.reportValidity();
     return;
   }
+  if (count !== getSavedPartySize() && getSavedGroupNumber()) {
+    savePreviousGroupNumber(getSavedGroupNumber());
+    assignedGroupNumber = null;
+    try { window.localStorage.removeItem(GROUP_STORAGE_KEY); } catch (error) {}
+  }
   partySize = count;
   try { window.localStorage.setItem(PARTY_SIZE_STORAGE_KEY, String(count)); } catch (error) {}
+  showScreen("group");
+}
+
+function changePartySize(amount) {
+  const count = Number(partySizeInput.value) || 1;
+  partySizeInput.value = String(Math.max(1, Math.min(12, count + amount)));
+  partySizeInput.setCustomValidity("");
+}
+
+function assignGroup() {
   const previous = getPreviousGroupNumber();
   let number = Math.floor(Math.random() * (previous ? 11 : 12)) + 1;
   if (previous && number >= previous) number += 1;
@@ -171,18 +185,16 @@ function pickAgain() {
   const current = getSavedGroupNumber();
   if (current) savePreviousGroupNumber(current);
   assignedGroupNumber = null;
-  partySize = getSavedPartySize();
-  try {
-    window.localStorage.removeItem(GROUP_STORAGE_KEY);
-  } catch (error) {}
+  try { window.localStorage.removeItem(GROUP_STORAGE_KEY); } catch (error) {}
   renderGroupAssignment();
-  partySizeInput.focus();
+  assignGroupButton.focus({ preventScroll: true });
 }
 
 function showScreen(name, updateHash = true) {
   screens.forEach((screen) => screen.classList.toggle("is-active", screen.dataset.screen === name));
   document.querySelector(".page-shell").classList.toggle("is-home", name === "home");
   if (name === "group") renderGroupAssignment();
+  if (name === "party") partySizeInput.value = String(getSavedPartySize());
   if (updateHash) history.replaceState(null, "", name === "home" ? location.pathname : `#${name}`);
   window.scrollTo({ top: 0, behavior: "smooth" });
   requestAnimationFrame(() => app.focus({ preventScroll: true }));
@@ -326,6 +338,9 @@ document.addEventListener("click", (event) => {
 document.getElementById("beginDeckButton").addEventListener("click", startDeck);
 assignGroupButton.addEventListener("click", assignGroup);
 pickAgainButton.addEventListener("click", pickAgain);
+partyForm.addEventListener("submit", savePartySize);
+decreaseParty.addEventListener("click", () => changePartySize(-1));
+increaseParty.addEventListener("click", () => changePartySize(1));
 partySizeInput.addEventListener("input", () => partySizeInput.setCustomValidity(""));
 nextCardButton.addEventListener("click", nextPrompt);
 document.getElementById("finishButton").addEventListener("click", celebrate);
@@ -335,5 +350,5 @@ document.getElementById("doneShareButton").addEventListener("click", shareCards)
 document.getElementById("homeShareButton").addEventListener("click", shareHome);
 
 const initialRoute = location.hash.replace("#", "");
-if (["welcome", "host", "group", "setup", "icebreaker"].includes(initialRoute)) showScreen(initialRoute, false);
+if (["welcome", "host", "party", "group", "setup", "icebreaker"].includes(initialRoute)) showScreen(initialRoute === "group" ? "party" : initialRoute, false);
 else showScreen("home", false);
