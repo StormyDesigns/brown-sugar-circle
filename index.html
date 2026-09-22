@@ -104,7 +104,7 @@
           </div>
 
           <div class="action-stack">
-            <button class="button button-primary" type="button" data-route="group">
+            <button class="button button-primary" type="button" data-route="party">
               Find my circle
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
             </button>
@@ -113,17 +113,28 @@
 
         </section>
 
-        <section class="screen group-screen" data-screen="group" aria-labelledby="group-title">
-          <div class="step-label">Your picnic group</div>
-          <h2 id="group-title">Let’s find your circle.</h2>
-          <p class="group-intro" id="groupIntro">Coming with friends? Pick one number together so you can sit in the same circle.</p>
-          <span class="visually-hidden" id="groupAnnouncement" role="status" aria-live="polite"></span>
+        <section class="screen party-screen" data-screen="party" aria-labelledby="party-title">
+          <div class="step-label">Step 1 of 2 · Your group</div>
+          <h2 id="party-title">How many people are in your group?</h2>
+          <p class="group-intro">Count yourself and any friends who want to sit together. One person can pick a circle number for everyone.</p>
 
-          <div class="party-size" id="partySizeField">
-            <label for="partySize">How many people are sitting together, including you?</label>
-            <input id="partySize" type="number" inputmode="numeric" min="1" max="12" value="1" required aria-describedby="partySizeHelp" />
-            <p id="partySizeHelp">If you’re on your own, leave this at 1. Only one person in your group needs to pick a number.</p>
-          </div>
+          <form id="partyForm" class="party-form">
+            <div class="party-size">
+              <button class="count-button" id="decreaseParty" type="button" aria-label="Remove one person">−</button>
+              <input id="partySize" type="number" inputmode="numeric" min="1" max="12" value="1" required aria-labelledby="party-title" aria-describedby="partySizeHelp" />
+              <button class="count-button" id="increaseParty" type="button" aria-label="Add one person">+</button>
+            </div>
+            <p class="party-size-help" id="partySizeHelp">Including you · up to 12 people</p>
+            <button class="button button-primary" type="submit">Continue to circle number</button>
+          </form>
+          <button class="text-button" type="button" data-route="welcome">Back</button>
+        </section>
+
+        <section class="screen group-screen" data-screen="group" aria-labelledby="group-title">
+          <div class="step-label">Step 2 of 2 · Your circle</div>
+          <h2 id="group-title">Let’s find your circle.</h2>
+          <p class="group-intro" id="groupIntro">You’ll all get the same number. Look for its picnic sign.</p>
+          <span class="visually-hidden" id="groupAnnouncement" role="status" aria-live="polite"></span>
 
           <div class="assignment-panel">
             <strong class="assignment-number" id="groupNumber" aria-hidden="true">?</strong>
@@ -132,8 +143,8 @@
           <div class="group-actions">
             <button class="button button-primary" id="assignGroupButton" type="button">Pick our number</button>
             <button class="button button-primary" id="continueButton" type="button" data-route="setup" hidden>I found my circle</button>
-            <button class="text-button" id="pickAgainButton" type="button" hidden>Change group size or pick again</button>
-            <button class="text-button" type="button" data-route="welcome">Back</button>
+            <button class="text-button" id="pickAgainButton" type="button" hidden>Pick a different number</button>
+            <button class="text-button" type="button" data-route="party">Change group size</button>
           </div>
         </section>
 
