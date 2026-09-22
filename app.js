@@ -54,9 +54,11 @@ let currentIndex = 0;
 let currentPrompt = null;
 let assignedGroupNumber = null;
 let previousGroupNumber = null;
+let partySize = 1;
 
 const GROUP_STORAGE_KEY = "bsc-picnic-group";
 const PREVIOUS_GROUP_STORAGE_KEY = "bsc-previous-picnic-group";
+const PARTY_SIZE_STORAGE_KEY = "bsc-picnic-party-size";
 
 const screens = [...document.querySelectorAll("[data-screen]")];
 const app = document.getElementById("app");
@@ -75,6 +77,17 @@ const groupIntro = document.getElementById("groupIntro");
 const groupAnnouncement = document.getElementById("groupAnnouncement");
 const assignGroupButton = document.getElementById("assignGroupButton");
 const continueButton = document.getElementById("continueButton");
+const partySizeInput = document.getElementById("partySize");
+const partySizeField = document.getElementById("partySizeField");
+
+function getSavedPartySize() {
+  try {
+    const saved = Number(window.localStorage.getItem(PARTY_SIZE_STORAGE_KEY));
+    return Number.isInteger(saved) && saved >= 1 && saved <= 12 ? saved : partySize;
+  } catch (error) {
+    return partySize;
+  }
+}
 
 function getSavedGroupNumber() {
   try {
@@ -117,17 +130,31 @@ function renderGroupAssignment() {
   groupNumber.textContent = saved ?? "?";
   groupTitle.textContent = saved ? `You’re in Circle ${saved}.` : "Let’s find your circle.";
   groupIntro.textContent = saved
-    ? "Find the picnic sign with the same number."
-    : "Tap below to pick a number from 1–12.";
+    ? getSavedPartySize() > 1
+      ? `Tell your ${getSavedPartySize() - 1} friend${getSavedPartySize() === 2 ? "" : "s"} this number. Head to the picnic sign with the same number together.`
+      : "Find the picnic sign with the same number."
+    : "Coming with friends? Pick one number together so you can sit in the same circle.";
   groupAnnouncement.textContent = saved
-    ? `You’re in Circle ${saved}. Find the picnic sign with the same number.`
+    ? `You’re in Circle ${saved}. ${groupIntro.textContent}`
     : "";
+  partySizeField.hidden = Boolean(saved);
+  if (!saved) partySizeInput.value = String(getSavedPartySize());
   assignGroupButton.hidden = Boolean(saved);
   continueButton.hidden = !saved;
   document.querySelector(".assignment-panel").classList.toggle("has-number", Boolean(saved));
 }
 
 function assignGroup() {
+  partySizeInput.setCustomValidity("");
+  if (!partySizeInput.reportValidity()) return;
+  const count = Number(partySizeInput.value);
+  if (!Number.isInteger(count) || count < 1 || count > 12) {
+    partySizeInput.setCustomValidity("Enter a whole number from 1 to 12.");
+    partySizeInput.reportValidity();
+    return;
+  }
+  partySize = count;
+  try { window.localStorage.setItem(PARTY_SIZE_STORAGE_KEY, String(count)); } catch (error) {}
   const previous = getPreviousGroupNumber();
   let number = Math.floor(Math.random() * (previous ? 11 : 12)) + 1;
   if (previous && number >= previous) number += 1;
@@ -202,8 +229,10 @@ function resetCircle() {
   currentIndex = 0;
   currentPrompt = null;
   assignedGroupNumber = null;
+  partySize = 1;
   try {
     window.localStorage.removeItem(GROUP_STORAGE_KEY);
+    window.localStorage.removeItem(PARTY_SIZE_STORAGE_KEY);
   } catch (error) {
     // The in-memory assignment is still cleared if browser storage is unavailable.
   }
@@ -282,6 +311,7 @@ document.addEventListener("click", (event) => {
 
 document.getElementById("beginDeckButton").addEventListener("click", startDeck);
 assignGroupButton.addEventListener("click", assignGroup);
+partySizeInput.addEventListener("input", () => partySizeInput.setCustomValidity(""));
 nextCardButton.addEventListener("click", nextPrompt);
 document.getElementById("finishButton").addEventListener("click", celebrate);
 document.getElementById("newCircleButton").addEventListener("click", resetCircle);
