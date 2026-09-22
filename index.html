@@ -116,15 +116,21 @@
         <section class="screen group-screen" data-screen="group" aria-labelledby="group-title">
           <div class="step-label">Your picnic group</div>
           <h2 id="group-title">Let’s find your circle.</h2>
-          <p class="group-intro" id="groupIntro">Tap below to pick a number from 1–12.</p>
+          <p class="group-intro" id="groupIntro">Coming with friends? Pick one number together so you can sit in the same circle.</p>
           <span class="visually-hidden" id="groupAnnouncement" role="status" aria-live="polite"></span>
+
+          <div class="party-size" id="partySizeField">
+            <label for="partySize">How many people are sitting together, including you?</label>
+            <input id="partySize" type="number" inputmode="numeric" min="1" max="12" value="1" required aria-describedby="partySizeHelp" />
+            <p id="partySizeHelp">If you’re on your own, leave this at 1. Only one person in your group needs to pick a number.</p>
+          </div>
 
           <div class="assignment-panel">
             <strong class="assignment-number" id="groupNumber" aria-hidden="true">?</strong>
           </div>
 
           <div class="group-actions">
-            <button class="button button-primary" id="assignGroupButton" type="button">Pick my number</button>
+            <button class="button button-primary" id="assignGroupButton" type="button">Pick our number</button>
             <button class="button button-primary" id="continueButton" type="button" data-route="setup" hidden>I found my circle</button>
             <button class="text-button" type="button" data-route="welcome">Back</button>
           </div>
@@ -223,7 +229,7 @@
               <ul>
                 <li>Place a number at each blanket or seating area.</li>
                 <li>Text or QR-code this link so every guest can get a circle number and open the cards.</li>
-                <li>Ask guests to tap “Find my circle” before they settle in with friends.</li>
+                <li>Ask friends who want to sit together to have one person enter their total group size and pick a number for everyone.</li>
                 <li>Because the assignment is random, choose one friendly floater to balance crowded groups and help late arrivals.</li>
               </ul>
             </article>
