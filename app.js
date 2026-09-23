@@ -11,7 +11,19 @@ const PROMPTS = {
     "What’s one local spot you want more people to know about?",
     "What’s something you’re looking forward to this season?",
     "What makes a gathering instantly feel welcoming to you?",
-    "What does your current main-character soundtrack sound like?"
+    "What does your current main-character soundtrack sound like?",
+    "What’s your favorite song at the moment?",
+    "Would you rather spend the day hiking or at the beach?",
+    "Would you rather have a cozy night at home or a night out?",
+    "What’s your go-to karaoke song?",
+    "What show or movie could you watch over and over?",
+    "Are you a brunch person or a dinner person?",
+    "If we had a free afternoon in LA, where should we go?",
+    "What’s your favorite way to treat yourself under $20?",
+    "Would you rather plan the outing or show up to a surprise plan?",
+    "What’s a snack you’ll always say yes to?",
+    "What’s your most-used emoji right now?",
+    "What’s a harmless opinion you’ll defend every time?"
   ],
   connect: [
     "What kind of friendship are you making more room for?",
