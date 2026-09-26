@@ -207,7 +207,7 @@ function showScreen(name, updateHash = true) {
   document.querySelector(".page-shell").classList.toggle("is-home", name === "home");
   if (name === "group") renderGroupAssignment();
   if (name === "party") partySizeInput.value = String(getSavedPartySize());
-  if (updateHash) history.replaceState(null, "", name === "home" ? location.pathname : `#${name}`);
+  if (updateHash) history.replaceState(null, "", name === "home" ? location.pathname : `#${name === "welcome" ? "picnic-cards" : name}`);
   window.scrollTo({ top: 0, behavior: "smooth" });
   requestAnimationFrame(() => app.focus({ preventScroll: true }));
 }
@@ -281,7 +281,7 @@ async function shareCards() {
   const shareData = {
     title: "Brown Sugar Circle conversation cards",
     text: "Open these Brown Sugar Circle picnic conversation cards for your group.",
-    url: `${location.origin}${location.pathname}#welcome`
+    url: `${location.origin}${location.pathname}#picnic-cards`
   };
   try {
     if (navigator.share) {
@@ -362,5 +362,8 @@ document.getElementById("doneShareButton").addEventListener("click", shareCards)
 document.getElementById("homeShareButton").addEventListener("click", shareHome);
 
 const initialRoute = location.hash.replace("#", "");
-if (["welcome", "host", "party", "group", "setup", "icebreaker"].includes(initialRoute)) showScreen(initialRoute === "group" ? "party" : initialRoute, false);
+if (["welcome", "picnic-cards", "host", "party", "group", "setup", "icebreaker"].includes(initialRoute)) {
+  showScreen(initialRoute === "group" ? "party" : ["welcome", "picnic-cards"].includes(initialRoute) ? "welcome" : initialRoute, false);
+  if (initialRoute === "welcome") history.replaceState(null, "", "#picnic-cards");
+}
 else showScreen("home", false);
