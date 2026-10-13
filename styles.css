@@ -113,7 +113,7 @@ button:focus-visible, a:focus-visible { outline: 4px solid var(--orange); outlin
 .icon-button svg, .button svg { width: 20px; fill: none; stroke: currentColor; stroke-width: 2.3; stroke-linecap: round; stroke-linejoin: round; }
 
 main { min-height: calc(100vh - 88px); position: relative; z-index: 2; }
-.page-shell.is-home .site-header { display: none; }
+.page-shell.is-home .home-share-button { display: none; }
 .page-shell.is-home main { min-height: 100vh; }
 
 .screen {
