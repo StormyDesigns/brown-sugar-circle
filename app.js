@@ -80,6 +80,7 @@ function showScreen(name, updateHash = true) {
   if (name === "deck" && !deck.length) drawPrompt(false);
   screens.forEach((screen) => screen.classList.toggle("is-active", screen.dataset.screen === name));
   document.querySelector(".page-shell").classList.toggle("is-home", name === "home");
+  document.getElementById("shareButton").setAttribute("aria-label", name === "home" ? "Share Brown Sugar Circle" : "Share these conversation cards");
   if (updateHash) history.replaceState(null, "", name === "home" ? location.pathname : `#${name === "welcome" ? "picnic-cards" : name}`);
   window.scrollTo({ top: 0, behavior: "smooth" });
   requestAnimationFrame(() => app.focus({ preventScroll: true }));
@@ -214,7 +215,10 @@ document.getElementById("beginDeckButton").addEventListener("click", startDeck);
 nextCardButton.addEventListener("click", nextPrompt);
 document.getElementById("finishButton").addEventListener("click", celebrate);
 document.getElementById("newCircleButton").addEventListener("click", resetCircle);
-document.getElementById("shareButton").addEventListener("click", shareCards);
+document.getElementById("shareButton").addEventListener("click", () => {
+  if (document.querySelector(".page-shell").classList.contains("is-home")) shareHome();
+  else shareCards();
+});
 document.getElementById("homeShareButton").addEventListener("click", shareHome);
 
 const initialRoute = location.hash.replace("#", "");
