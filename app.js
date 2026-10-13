@@ -215,7 +215,6 @@ nextCardButton.addEventListener("click", nextPrompt);
 document.getElementById("finishButton").addEventListener("click", celebrate);
 document.getElementById("newCircleButton").addEventListener("click", resetCircle);
 document.getElementById("shareButton").addEventListener("click", shareCards);
-document.getElementById("doneShareButton").addEventListener("click", shareCards);
 document.getElementById("homeShareButton").addEventListener("click", shareHome);
 
 const initialRoute = location.hash.replace("#", "");
