@@ -64,14 +64,6 @@ const CATEGORY_INFO = {
 let deck = [];
 let currentIndex = 0;
 let currentPrompt = null;
-let assignedGroupNumber = null;
-let previousGroupNumber = null;
-let partySize = 1;
-
-const GROUP_STORAGE_KEY = "bsc-picnic-group";
-const PREVIOUS_GROUP_STORAGE_KEY = "bsc-previous-picnic-group";
-const PARTY_SIZE_STORAGE_KEY = "bsc-picnic-party-size";
-
 const screens = [...document.querySelectorAll("[data-screen]")];
 const app = document.getElementById("app");
 const activeCard = document.getElementById("activeCard");
@@ -83,130 +75,11 @@ const progressLabel = document.getElementById("progressLabel");
 const promptNote = document.getElementById("promptNote");
 const nextCardButton = document.getElementById("nextCardButton");
 const toast = document.getElementById("toast");
-const groupNumber = document.getElementById("groupNumber");
-const groupTitle = document.getElementById("group-title");
-const groupIntro = document.getElementById("groupIntro");
-const groupAnnouncement = document.getElementById("groupAnnouncement");
-const assignGroupButton = document.getElementById("assignGroupButton");
-const continueButton = document.getElementById("continueButton");
-const pickAgainButton = document.getElementById("pickAgainButton");
-const partySizeInput = document.getElementById("partySize");
-const partyForm = document.getElementById("partyForm");
-const decreaseParty = document.getElementById("decreaseParty");
-const increaseParty = document.getElementById("increaseParty");
-
-function getSavedPartySize() {
-  try {
-    const saved = Number(window.localStorage.getItem(PARTY_SIZE_STORAGE_KEY));
-    return Number.isInteger(saved) && saved >= 1 && saved <= 12 ? saved : partySize;
-  } catch (error) {
-    return partySize;
-  }
-}
-
-function getSavedGroupNumber() {
-  try {
-    const saved = Number.parseInt(window.localStorage.getItem(GROUP_STORAGE_KEY), 10);
-    return saved >= 1 && saved <= 12 ? saved : null;
-  } catch (error) {
-    return assignedGroupNumber;
-  }
-}
-
-function saveGroupNumber(number) {
-  assignedGroupNumber = number;
-  try {
-    window.localStorage.setItem(GROUP_STORAGE_KEY, String(number));
-  } catch (error) {
-    // The assignment still works for this visit if browser storage is unavailable.
-  }
-}
-
-function getPreviousGroupNumber() {
-  try {
-    const saved = Number.parseInt(window.localStorage.getItem(PREVIOUS_GROUP_STORAGE_KEY), 10);
-    return saved >= 1 && saved <= 12 ? saved : null;
-  } catch (error) {
-    return previousGroupNumber;
-  }
-}
-
-function savePreviousGroupNumber(number) {
-  previousGroupNumber = number;
-  try {
-    window.localStorage.setItem(PREVIOUS_GROUP_STORAGE_KEY, String(number));
-  } catch (error) {
-    // The previous assignment is still remembered for this visit.
-  }
-}
-
-function renderGroupAssignment() {
-  const saved = getSavedGroupNumber();
-  groupNumber.textContent = saved ?? "?";
-  groupTitle.textContent = saved ? `You’re in Circle ${saved}.` : "Let’s find your circle.";
-  groupIntro.textContent = saved
-    ? getSavedPartySize() > 1
-      ? `Tell your ${getSavedPartySize() - 1} friend${getSavedPartySize() === 2 ? "" : "s"} this number. Head to the picnic sign with the same number together.`
-      : "Find the picnic sign with the same number."
-    : "You’ll all get the same number. Look for its picnic sign.";
-  groupAnnouncement.textContent = saved ? `You’re in Circle ${saved}. ${groupIntro.textContent}` : "";
-  assignGroupButton.hidden = Boolean(saved);
-  continueButton.hidden = !saved;
-  pickAgainButton.hidden = !saved;
-  document.querySelector(".assignment-panel").classList.toggle("has-number", Boolean(saved));
-}
-
-function savePartySize(event) {
-  event.preventDefault();
-  partySizeInput.setCustomValidity("");
-  if (!partySizeInput.reportValidity()) return;
-  const count = Number(partySizeInput.value);
-  if (!Number.isInteger(count) || count < 1 || count > 12) {
-    partySizeInput.setCustomValidity("Enter a whole number from 1 to 12.");
-    partySizeInput.reportValidity();
-    return;
-  }
-  if (count !== getSavedPartySize() && getSavedGroupNumber()) {
-    savePreviousGroupNumber(getSavedGroupNumber());
-    assignedGroupNumber = null;
-    try { window.localStorage.removeItem(GROUP_STORAGE_KEY); } catch (error) {}
-  }
-  partySize = count;
-  try { window.localStorage.setItem(PARTY_SIZE_STORAGE_KEY, String(count)); } catch (error) {}
-  showScreen("group");
-}
-
-function changePartySize(amount) {
-  const count = Number(partySizeInput.value) || 1;
-  partySizeInput.value = String(Math.max(1, Math.min(12, count + amount)));
-  partySizeInput.setCustomValidity("");
-}
-
-function assignGroup() {
-  const previous = getPreviousGroupNumber();
-  let number = Math.floor(Math.random() * (previous ? 11 : 12)) + 1;
-  if (previous && number >= previous) number += 1;
-  saveGroupNumber(number);
-  renderGroupAssignment();
-  groupNumber.classList.remove("is-revealing");
-  requestAnimationFrame(() => groupNumber.classList.add("is-revealing"));
-  continueButton.focus({ preventScroll: true });
-}
-
-function pickAgain() {
-  const current = getSavedGroupNumber();
-  if (current) savePreviousGroupNumber(current);
-  assignedGroupNumber = null;
-  try { window.localStorage.removeItem(GROUP_STORAGE_KEY); } catch (error) {}
-  renderGroupAssignment();
-  assignGroupButton.focus({ preventScroll: true });
-}
-
 function showScreen(name, updateHash = true) {
+  if (name === "party" || name === "group") name = "setup";
+  if (name === "deck" && !deck.length) drawPrompt(false);
   screens.forEach((screen) => screen.classList.toggle("is-active", screen.dataset.screen === name));
   document.querySelector(".page-shell").classList.toggle("is-home", name === "home");
-  if (name === "group") renderGroupAssignment();
-  if (name === "party") partySizeInput.value = String(getSavedPartySize());
   if (updateHash) history.replaceState(null, "", name === "home" ? location.pathname : `#${name === "welcome" ? "picnic-cards" : name}`);
   window.scrollTo({ top: 0, behavior: "smooth" });
   requestAnimationFrame(() => app.focus({ preventScroll: true }));
@@ -261,19 +134,9 @@ function nextPrompt() {
 }
 
 function resetCircle() {
-  const currentGroupNumber = getSavedGroupNumber();
-  if (currentGroupNumber) savePreviousGroupNumber(currentGroupNumber);
   deck = [];
   currentIndex = 0;
   currentPrompt = null;
-  assignedGroupNumber = null;
-  partySize = 1;
-  try {
-    window.localStorage.removeItem(GROUP_STORAGE_KEY);
-    window.localStorage.removeItem(PARTY_SIZE_STORAGE_KEY);
-  } catch (error) {
-    // The in-memory assignment is still cleared if browser storage is unavailable.
-  }
   showScreen("welcome");
 }
 
@@ -348,12 +211,6 @@ document.addEventListener("click", (event) => {
 });
 
 document.getElementById("beginDeckButton").addEventListener("click", startDeck);
-assignGroupButton.addEventListener("click", assignGroup);
-pickAgainButton.addEventListener("click", pickAgain);
-partyForm.addEventListener("submit", savePartySize);
-decreaseParty.addEventListener("click", () => changePartySize(-1));
-increaseParty.addEventListener("click", () => changePartySize(1));
-partySizeInput.addEventListener("input", () => partySizeInput.setCustomValidity(""));
 nextCardButton.addEventListener("click", nextPrompt);
 document.getElementById("finishButton").addEventListener("click", celebrate);
 document.getElementById("newCircleButton").addEventListener("click", resetCircle);
@@ -363,7 +220,7 @@ document.getElementById("homeShareButton").addEventListener("click", shareHome);
 
 const initialRoute = location.hash.replace("#", "");
 if (["welcome", "picnic-cards", "host", "party", "group", "setup", "icebreaker"].includes(initialRoute)) {
-  showScreen(initialRoute === "group" ? "party" : ["welcome", "picnic-cards"].includes(initialRoute) ? "welcome" : initialRoute, false);
+  showScreen(["party", "group"].includes(initialRoute) ? "setup" : ["welcome", "picnic-cards"].includes(initialRoute) ? "welcome" : initialRoute, false);
   if (initialRoute === "welcome") history.replaceState(null, "", "#picnic-cards");
 }
 else showScreen("home", false);
